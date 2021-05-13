@@ -119,12 +119,7 @@ public class DidiHealthScoreStrategy extends AbstractHealthScoreStrategy {
         FutureTask<Integer>[] taskList = new FutureTask[brokerIdList.size()];
         for (int i = 0; i < brokerIdList.size(); ++i) {
             final Integer brokerId = brokerIdList.get(i);
-            taskList[i] = new FutureTask<Integer>(new Callable<Integer>() {
-                @Override
-                public Integer call() throws Exception {
-                    return calBrokerHealthScore(clusterId, brokerId);
-                }
-            });
+            taskList[i] = new FutureTask<>(() -> calBrokerHealthScore(clusterId, brokerId));
             ThreadPool.submitApiCallTask(taskList[i]);
         }
 
